@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/dogs/dog-index.css' %}" />
+{% endblock %} {% block content %}
+
+<section class="page-header">
+  <h1>List of Doggies</h1>
+  <img src="{% static 'images/big-eyes.jpg' %}" alt="A big eyed dog" />
+  <img src="{% static 'images/happy-dog.jpg' %}" alt="A happy dog" />
+  <img src="{% static 'images/dog-onigiri.png' %}" alt="A dog in a teacup" />
+  <img src="{% static 'images/dog-in-box.png' %}" alt="A sad sad dog" />
+</section>
+
+<section class="card-container">
+  {% for dog in dogs %}
+  <div class="card">
+    <div class="card-content">
+      <div class="card-img-container">
+        <img
+          src="{% static 'images/bucktooth.jpg' %}"
+          alt="A skater boy dog"
+        />
+      </div>
+      <h2 class="card-title">{{ dog.name }}</h2>
+      {% if dog.age > 0 %}
+      <p>A {{ dog.age }} year old {{ dog.breed }}</p>
+      {% else %}
+      <p>A {{ dog.breed }} puppy.</p>
+      {% endif %}
+      <p><small>{{ dog.description }}</small></p>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}
