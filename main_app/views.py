@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Dog
-
+from .forms import FeedingForm
 
 # Create your views here.
 def home(request):
@@ -16,7 +16,8 @@ def dog_index(request):
 
 def dog_detail(request, dog_id):
   dog = Dog.objects.get(id=dog_id)
-  return render(request,  'dogs/detail.html', {'dog': dog})
+  feeding_form = FeedingForm()
+  return render(request,  'dogs/detail.html', {'dog': dog, 'feeding_form': feeding_form})
 
 class DogCreate(CreateView):
   model = Dog
@@ -30,3 +31,12 @@ class DogUpdate(UpdateView):
 class DogDelete(DeleteView):
   model = Dog
   success_url = '/dogs/'
+
+def add_feeding(request, dog_id):
+  # request.POST is a QueryDict (dictionary-like object)
+  form = FeedingForm(request.POST)
+  if form.is_valid():
+    new_feeding = form.save(commit=False)
+    new_feeding.dog_id = dog_id
+    new_feeding.save()
+  return redirect('dog-detail', dog_id=dog_id)
