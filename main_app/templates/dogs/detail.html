@@ -1,9 +1,6 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% block head %}
+{% extends 'base.html' %} {% load static %} {% block head %}
 <link rel="stylesheet" href="{% static 'css/dogs/dog-detail.css' %}" />
-{% endblock %} 
-{% block content %}
+{% endblock %} {% block content %}
 <section class="dog-container">
   <div class="dog-img">
     <img src="{% static 'images/bucktooth.jpg' %}" alt="A skater boy dog" />
@@ -11,19 +8,18 @@
   <div class="dog-details">
     <h1>{{ dog.name }}</h1>
     {% if dog.age > 0 %}
-      <h2>A {{ dog.age }} year old {{ dog.breed }}</h2>
+    <h2>A {{ dog.age }} year old {{ dog.breed }}</h2>
     {% else %}
-      <h2>A {{ dog.breed }} doggy.</h2>
+    <h2>A {{ dog.breed }} doggy.</h2>
     {% endif %}
     <p>{{ dog.description }}</p>
-    
+
     <div class="dog-actions">
       <a href="{% url 'dog-update' dog.id %}" class="btn warn">Edit</a>
       <a href="{% url 'dog-delete' dog.id %}" class="btn danger">Delete</a>
     </div>
   </div>
 </section>
-
 
 <!-- Existing dog-container above -->
 <div class="feedings-toy-container">
@@ -35,10 +31,7 @@
         alt="An ice cream cone dog"
       />
       <img src="{% static 'images/dog-onigiri.png' %}" alt="A dog as onigiri" />
-      <img
-        src="{% static 'images/cool-dog.jpg' %}"
-        alt="A kabob of kittens"
-      />
+      <img src="{% static 'images/cool-dog.jpg' %}" alt="A kabob of kittens" />
     </div>
 
     <h3>Add a Feeding</h3>
