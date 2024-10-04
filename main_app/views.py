@@ -17,12 +17,18 @@ def dog_index(request):
 
 def dog_detail(request, dog_id):
   dog = Dog.objects.get(id=dog_id)
+  toy_ids_dog_has = dog.toys.all().values_list('id')
+  toys_dog_doesnt_have = Toy.objects.exclude(id__in=toy_ids_dog_has)
   feeding_form = FeedingForm()
-  return render(request,  'dogs/detail.html', {'dog': dog, 'feeding_form': feeding_form})
+  return render(request,  'dogs/detail.html', {
+    'dog': dog, 
+    'feeding_form': feeding_form, 
+    'toys': toys_dog_doesnt_have
+  })
 
 class DogCreate(CreateView):
   model = Dog
-  fields = '__all__'
+  fields = ['name', 'breed', 'description', 'age']
   # success_url = '/dogs/{id}'
 
 class DogUpdate(UpdateView):
@@ -59,3 +65,14 @@ class ToyUpdate(UpdateView):
 class ToyDelete(DeleteView):
   model = Toy
   success_url = '/toys/'
+
+def associate_toy(request, dog_id, toy_id):
+  # dog = Dog.objects.get(id=dog_id)
+  # dog.toys.add(toy_id)
+  # Same as above two lines
+  Dog.objects.get(id=dog_id).toys.add(toy_id)
+  return redirect('dog-detail', dog_id=dog_id)
+
+def remove_toy(request, dog_id, toy_id):
+  Dog.objects.get(id=dog_id).toys.remove(toy_id)
+  return redirect('dog-detail', dog_id=dog_id)
